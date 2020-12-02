@@ -7,7 +7,7 @@ const {
   FlexLayout,
 } = require("../common/utils");
 
-const createImageNode = href => {
+const createImageNode = (href) => {
   return `
     <image href="${href}" />
   `;
@@ -34,16 +34,14 @@ const createTextNode = ({ label, value, index }) => {
 const createExerciseNode = (
   { exerciseIcon, title, track },
   index,
-  show_icons,
+  show_icons
 ) => {
   const bulletPoint = show_icons ? createImageNode(exerciseIcon) : "•";
 
   return `
-    <g transform="translate(55, 0)">
-      <text class="stat" y="92.5">
-        ${bulletPoint} ${title} in ${track}
-      </text>
-    </g>
+    <text class="stat">
+      ${bulletPoint} ${title} in ${track}
+    </text>
   `;
 };
 
@@ -82,10 +80,12 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     stars: {
       label: "Total Stars",
       value: starCount,
+      id: "stars",
     },
     mentored: {
       label: "Total Mentored",
       value: mentoredCount,
+      id: "mentored",
     },
   };
 
@@ -105,7 +105,10 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
   );
 
   const statsHeight = statNodes.length * lheight;
-  const exercisesHeight = isEmpty(exerciseNodes) ? 0 : exerciseNodes.length + 1;
+  const exercisesHeight =
+    isEmpty(exerciseNodes) || hide.includes("exercises")
+      ? 0
+      : exerciseNodes.length + 1;
   const cardHeight = 45 + (statNodes.length + exercisesHeight + 1) * lheight;
   const staggerDelay = (statNodes.length + 3) * 150;
 
@@ -141,7 +144,10 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
         items: statNodes,
         gap: lheight,
       }).join("")}
-      ${!isEmpty(exerciseNodes) && `
+      ${
+        !isEmpty(exerciseNodes) &&
+        !hide.includes("exercises") &&
+        `
         <g class="stagger" style="animation-delay: ${staggerDelay}ms">
           <text
             class="stat"
@@ -150,12 +156,15 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
           >
             Recent Exercises:
           </text>
-          ${FlexLayout({
-            items: exerciseNodes,
-            gap: lheight,
-          }).join("")}
+          <g transform="translate(55, ${statsHeight + 40})">
+            ${FlexLayout({
+              items: exerciseNodes,
+              gap: lheight,
+            }).join("")}
+          </g>
         </g>
-      `}
+      `
+      }
     </svg>
   `);
 };
