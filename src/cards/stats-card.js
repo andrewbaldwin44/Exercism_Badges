@@ -9,7 +9,7 @@ const {
 
 const createImageNode = href => {
   return `
-    <image href="${href}" />
+    <image x="-10" y="-12" href="${href}" height="15px" width="15px" />
   `;
 };
 
@@ -36,11 +36,14 @@ const createExerciseNode = (
   index,
   show_icons
 ) => {
-  const bulletPoint = show_icons ? createImageNode(exerciseIcon) : "•";
+  const bulletPoint = show_icons
+    ? createImageNode(exerciseIcon)
+    : `<text>•</text>`;
 
   return `
-    <text class="stat">
-      ${bulletPoint} ${title} in ${track}
+    ${bulletPoint}
+    <text x="15">
+      ${title} in ${track}
     </text>
   `;
 };
@@ -151,7 +154,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
           >
             Recent Exercises:
           </text>
-          <g transform="translate(55, ${statsHeight + 40})">
+          <g class="stat" transform="translate(55, ${statsHeight + 40})">
             ${FlexLayout({
               items: exerciseNodes,
               gap: lheight

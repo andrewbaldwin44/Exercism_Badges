@@ -26,9 +26,10 @@ Use `?theme=THEME_NAME` parameter to set a theme for the card.
 You can checkout the [theme config file](./server/theme.js) for all available themes.
 
 Alternatively, the badge can be styled using query params:
+
 - `title_color` - Card's title color (hex code - no '#')
-- `text_color` - Body text color (hex code  - no '#')
-- `bg_color` - Card's background color (hex code  - no '#') or a gradient in the form of angle,start,end
+- `text_color` - Body text color (hex code - no '#')
+- `bg_color` - Card's background color (hex code - no '#') or a gradient in the form of angle,start,end
 - `hide_border` - Hides the card's border (boolean)
 - `line_height` - Sets the line height (number), the default being 25
 - `custom_title` - Sets a custom title for the card
@@ -44,6 +45,10 @@ Use the `?amount=AMOUNT` parameter to set the number of exercises to show. Setti
 ```md
 [![Andrew's Exercism stats](https://exercism-badges.vercel.app/api?username=andrewbaldwin44&amount=2)](https://exercism.io/profiles/andrewbaldwin44)
 ```
+
+### Exercise Icons
+
+Use the `?show_icons=true` parameter to show exercise icons in place of the normal bullet points.
 
 ### Hiding Stats
 
