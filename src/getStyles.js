@@ -20,10 +20,7 @@ const getAnimations = () => {
   `;
 };
 
-const getStyles = ({
-  titleColor,
-  textColor,
-}) => {
+const getStyles = ({ titleColor, textColor }) => {
   return `
     .stat {
       font: 600 14px 'Segoe UI', Ubuntu, "Helvetica Neue", Sans-Serif; fill: ${textColor};

@@ -3,9 +3,9 @@ const {
   parseBoolean,
   parseArray,
   clampValue,
-  CONSTANTS,
+  CONSTANTS
 } = require("../src/common/utils");
-const fetchExercismStats = require('../src/exercism.fetcher');
+const fetchExercismStats = require("../src/exercism.fetcher");
 
 const renderStatsCard = require("../src/cards/stats-card");
 
@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     theme,
     cache_seconds,
     custom_title,
-    disable_animations,
+    disable_animations
   } = req.query;
 
   res.setHeader("Content-Type", "image/svg+xml");
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
     const cacheSeconds = clampValue(
       parseInt(cache_seconds || CONSTANTS.TWO_HOURS, 10),
       CONSTANTS.TWO_HOURS,
-      CONSTANTS.ONE_DAY,
+      CONSTANTS.ONE_DAY
     );
 
     res.setHeader("Cache-Control", `public, max-age=${cacheSeconds}`);
@@ -55,8 +55,8 @@ module.exports = async (req, res) => {
         bg_color,
         theme,
         custom_title,
-        disable_animations: parseBoolean(disable_animations),
-      }),
+        disable_animations: parseBoolean(disable_animations)
+      })
     );
   } catch (error) {
     return res.send(renderError(error.message, error.secondaryMessage));

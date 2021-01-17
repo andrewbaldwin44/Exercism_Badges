@@ -4,10 +4,10 @@ const {
   isEmpty,
   kFormatter,
   getCardColors,
-  FlexLayout,
+  FlexLayout
 } = require("../common/utils");
 
-const createImageNode = (href) => {
+const createImageNode = href => {
   return `
     <image href="${href}" />
   `;
@@ -61,42 +61,38 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     bg_color,
     theme = "default",
     custom_title,
-    disable_animations = false,
+    disable_animations = false
   } = options;
 
   const lheight = parseInt(line_height, 10);
 
-  // returns theme based colors with proper overrides and defaults
   const { titleColor, textColor, iconColor, bgColor } = getCardColors({
     title_color,
     icon_color,
     text_color,
     bg_color,
-    theme,
+    theme
   });
 
-  // Meta data for creating text nodes with createTextNode function
   const STATS = {
     stars: {
       label: "Total Stars",
       value: starCount,
-      id: "stars",
+      id: "stars"
     },
     mentored: {
       label: "Total Mentored",
       value: mentoredCount,
-      id: "mentored",
-    },
+      id: "mentored"
+    }
   };
 
-  // filter out hidden stats defined by user & create the text nodes
   const statNodes = Object.keys(STATS)
-    .filter((key) => !hide.includes(key))
+    .filter(key => !hide.includes(key))
     .map((key, index) =>
-      // create the text nodes, and pass index so that we can calculate the line spacing
       createTextNode({
         ...STATS[key],
-        index,
+        index
       })
     );
 
@@ -116,7 +112,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     titleColor,
     textColor,
     iconColor,
-    show_icons,
+    show_icons
   });
 
   const card = new Card({
@@ -128,8 +124,8 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
       titleColor,
       textColor,
       iconColor,
-      bgColor,
-    },
+      bgColor
+    }
   });
 
   card.setHideBorder(hide_border);
@@ -142,10 +138,9 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     <svg x="0" y="0">
       ${FlexLayout({
         items: statNodes,
-        gap: lheight,
+        gap: lheight
       }).join("")}
-      ${
-        !isEmpty(exerciseNodes) &&
+      ${!isEmpty(exerciseNodes) &&
         !hide.includes("exercises") &&
         `
         <g class="stagger" style="animation-delay: ${staggerDelay}ms">
@@ -159,12 +154,11 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
           <g transform="translate(55, ${statsHeight + 40})">
             ${FlexLayout({
               items: exerciseNodes,
-              gap: lheight,
+              gap: lheight
             }).join("")}
           </g>
         </g>
-      `
-      }
+      `}
     </svg>
   `);
 };

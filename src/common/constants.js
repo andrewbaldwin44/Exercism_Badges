@@ -10,7 +10,7 @@ const monthMap = {
   Sep: "09",
   Oct: "10",
   Nov: "11",
-  Dec: "12",
+  Dec: "12"
 };
 
 const mentorUrl = "https://exercism.io/profiles/";
@@ -19,5 +19,5 @@ const EXTRACT_URL = /[url]{3}[(']{2}(.*?)'[)]{1}/;
 module.exports = {
   monthMap,
   mentorUrl,
-  EXTRACT_URL,
+  EXTRACT_URL
 };

@@ -8,7 +8,7 @@ class Card {
     colors = {},
     customTitle,
     defaultTitle = "",
-    titlePrefixIcon,
+    titlePrefixIcon
   }) {
     this.width = width;
     this.height = height;
@@ -16,7 +16,6 @@ class Card {
     this.hideBorder = false;
     this.hideTitle = false;
 
-    // returns theme based colors with proper overrides and defaults
     this.colors = colors;
     this.title =
       customTitle !== undefined
@@ -84,7 +83,7 @@ class Card {
       >
         ${FlexLayout({
           items: [this.titlePrefixIcon && prefixIcon, titleText],
-          gap: 25,
+          gap: 25
         }).join("")}
       </g>
     `;
@@ -98,7 +97,7 @@ class Card {
       ? `
         <defs>
           <linearGradient
-            id="gradient" 
+            id="gradient"
             gradientTransform="rotate(${this.colors.bgColor[0]})"
           >
             ${gradients.map((grad, index) => {
