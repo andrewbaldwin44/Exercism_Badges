@@ -1,6 +1,6 @@
 {
   "name": "exercism-readme-stats",
-  "version": "0.0.2",
+  "version": "2.0.0",
   "description": "Dynamically generate Exercism stats for your github READMEs",
   "main": "api/index.js",
   "author": "Andrew Baldwin",

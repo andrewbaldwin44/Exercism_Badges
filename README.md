@@ -42,6 +42,8 @@ Alternatively, the badge can be styled using query params:
 
 Use the `?amount=AMOUNT` parameter to set the number of exercises to show. Setting the amount to zero will hide this stat.
 
+The max amount to show is 24.
+
 ```md
 [![Andrew's Exercism stats](https://exercism-badges.vercel.app/api?username=andrewbaldwin44&amount=2)](https://exercism.io/profiles/andrewbaldwin44)
 ```

@@ -22,7 +22,7 @@ const renderError = (message, secondaryMessage = "") => {
 // https://stackoverflow.com/a/48073476/10629172
 function encodeHTML(str) {
   return str
-    .replace(/[\u00A0-\u9999<>&](?!#)/gim, i => {
+    .replace(/[\u00A0-\u9999<>&](?!#)/gim, (i) => {
       return "&#" + i.charCodeAt(0) + ";";
     })
     .replace(/\u0008/gim, "");
@@ -71,15 +71,6 @@ function fallbackColor(color, fallbackColor) {
   );
 }
 
-function request(data, headers) {
-  return axios({
-    url: "https://api.github.com/graphql",
-    method: "post",
-    headers,
-    data
-  });
-}
-
 function FlexLayout({ items, gap }) {
   return items.filter(Boolean).map((item, i) => {
     return `<g transform="translate(0, ${gap * i})">${item}</g>`;
@@ -92,7 +83,7 @@ function getCardColors({
   icon_color,
   bg_color,
   theme,
-  fallbackTheme = "default"
+  fallbackTheme = "default",
 }) {
   const defaultTheme = themes[fallbackTheme];
   const selectedTheme = themes[theme] || defaultTheme;
@@ -117,13 +108,13 @@ function getCardColors({
   return { titleColor, iconColor, textColor, bgColor };
 }
 
-const isEmpty = list => list.length === 0;
+const isEmpty = (list) => list.length === 0;
 
 const CONSTANTS = {
   THIRTY_MINUTES: 1800,
   TWO_HOURS: 7200,
   FOUR_HOURS: 14400,
-  ONE_DAY: 86400
+  ONE_DAY: 86400,
 };
 
 module.exports = {
@@ -132,12 +123,11 @@ module.exports = {
   encodeHTML,
   isEmpty,
   isValidHexColor,
-  request,
   parseArray,
   parseBoolean,
   fallbackColor,
   FlexLayout,
   getCardColors,
   clampValue,
-  CONSTANTS
+  CONSTANTS,
 };

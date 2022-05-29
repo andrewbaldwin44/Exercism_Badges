@@ -4,10 +4,10 @@ const {
   isEmpty,
   kFormatter,
   getCardColors,
-  FlexLayout
+  FlexLayout,
 } = require("../common/utils");
 
-const createImageNode = href => {
+const createImageNode = (href) => {
   return `
     <image x="-10" y="-12" href="${href}" height="15px" width="15px" />
   `;
@@ -49,7 +49,7 @@ const createExerciseNode = (
 };
 
 const renderStatsCard = (stats = {}, options = { hide: [] }) => {
-  const { exercises, mentoredCount, starCount } = stats;
+  const { exercises, mentoredCount, exerciseCount } = stats;
 
   const {
     hide = [],
@@ -64,7 +64,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     bg_color,
     theme = "default",
     custom_title,
-    disable_animations = false
+    disable_animations = false,
   } = options;
 
   const lheight = parseInt(line_height, 10);
@@ -74,28 +74,28 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     icon_color,
     text_color,
     bg_color,
-    theme
+    theme,
   });
 
   const STATS = {
     stars: {
-      label: "Total Stars",
-      value: starCount,
-      id: "stars"
+      label: "Total Exercises",
+      value: exerciseCount,
+      id: "stars",
     },
     mentored: {
       label: "Total Mentored",
       value: mentoredCount,
-      id: "mentored"
-    }
+      id: "mentored",
+    },
   };
 
   const statNodes = Object.keys(STATS)
-    .filter(key => !hide.includes(key))
+    .filter((key) => !hide.includes(key))
     .map((key, index) =>
       createTextNode({
         ...STATS[key],
-        index
+        index,
       })
     );
 
@@ -115,7 +115,7 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     titleColor,
     textColor,
     iconColor,
-    show_icons
+    show_icons,
   });
 
   const card = new Card({
@@ -127,8 +127,8 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
       titleColor,
       textColor,
       iconColor,
-      bgColor
-    }
+      bgColor,
+    },
   });
 
   card.setHideBorder(hide_border);
@@ -141,9 +141,10 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
     <svg x="0" y="0">
       ${FlexLayout({
         items: statNodes,
-        gap: lheight
+        gap: lheight,
       }).join("")}
-      ${!isEmpty(exerciseNodes) &&
+      ${
+        !isEmpty(exerciseNodes) &&
         !hide.includes("exercises") &&
         `
         <g class="stagger" style="animation-delay: ${staggerDelay}ms">
@@ -157,11 +158,12 @@ const renderStatsCard = (stats = {}, options = { hide: [] }) => {
           <g class="stat" transform="translate(55, ${statsHeight + 40})">
             ${FlexLayout({
               items: exerciseNodes,
-              gap: lheight
+              gap: lheight,
             }).join("")}
           </g>
         </g>
-      `}
+      `
+      }
     </svg>
   `);
 };

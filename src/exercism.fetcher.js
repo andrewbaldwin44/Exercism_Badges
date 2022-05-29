@@ -1,59 +1,51 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const { monthMap, mentorUrl, EXTRACT_URL } = require("./common/constants");
-
-const compareSolutionsByDate = (a, b) =>
-  b.timestamp.getTime() - a.timestamp.getTime();
+const { mentorUrl } = require("./common/constants");
 
 async function fetchExercismStats(username) {
-  const response = await axios.get(`${mentorUrl}${username}`);
+  const testimonials = await axios.get(`${mentorUrl}${username}/testimonials`);
+  const solutions = await axios.get(`${mentorUrl}${username}/solutions`);
 
-  const $ = cheerio.load(response.data);
+  const $testimonials = cheerio.load(testimonials.data);
+  const $solutions = cheerio.load(solutions.data);
 
-  let starCount = 0;
+  const {
+    request: {
+      options: {
+        initial_data: { results },
+      },
+    },
+    tracks,
+  } = JSON.parse(
+    $solutions("div.c-react-wrapper-profile-community-solutions-list")[0]
+      .attribs["data-react-data"]
+  );
 
-  const exercises = $("a.solution")
-    .map((_i, exercise) => {
-      const el$ = $(exercise);
-      const date = el$
-        .find("div.published-at")
-        .text()
-        .trim()
-        .split(" ");
-      const exerciseIcon = el$
-        .find("div.img")
-        .css("background-image")
-        .match(EXTRACT_URL)[1];
+  const exerciseCount = tracks.find(({ title }) => title === "All Tracks")[
+    "num_solutions"
+  ];
 
-      starCount += Number(
-        el$
-          .find("div.details")
-          .children()
-          .last()
-          .text()
-      );
-
+  const exercises = results.map(
+    ({ published_at: publishedAt, exercise, track }) => {
       return {
-        exerciseIcon,
-        title: el$.find("div.title").text(),
-        track: el$
-          .find("div.track")
-          .text()
-          .slice(0, -6),
-        timestamp: new Date(`${date[2]}-${monthMap[date[0]]}-${date[1]}`)
+        exerciseIcon: exercise.icon_url,
+        title: exercise.title,
+        track: track.title,
+        timestamp: new Date(publishedAt),
       };
-    })
-    .toArray();
+    }
+  );
 
-  exercises.sort(compareSolutionsByDate);
-
-  const mentoredCount = $("div.count").text();
+  const mentoringStats = $testimonials("div.stat");
+  const mentoredCount = $testimonials(mentoringStats[0])
+    .find("div.number")
+    .text();
 
   return {
     exercises,
     mentoredCount,
-    starCount
+    exerciseCount,
   };
 }
 
